@@ -37,19 +37,19 @@ class CautiousGuy extends Player {
     if (history.currentIndex > PERIOD) {
       let wins = history.allRounds.slice(-PERIOD).reduce((w, round) => {
         let p = round.plays(this);
-        if (p.its === true && p.mine === false) {
+        if (p.its === true) {
           return w + 1;
         } else {
           return w;
         }
-      })
-      if (wins > PERIOD / 4) {
+      }, 0)
+      if (wins > PERIOD / 2) {
         return false;
       } else {
         return true;
       }
     } else {
-      return false;
+      return !!(history.currentIndex % 2);
     }
   }
 }

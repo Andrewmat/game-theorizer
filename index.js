@@ -1,24 +1,20 @@
-const Match = require('./src/Match');
+const Match = require('./src/model/Match');
 const {
   GoodGuy,
   MeanGuy,
   ReasonableGuy,
   CautiousGuy,
   Monkey
-} = require('./src/Player');
+} = require('./src/model/Player');
 
-var playerA = new MeanGuy('mean');
-var playerB = new ReasonableGuy('reasonable');
+var playerA = new CautiousGuy('caut');
+var playerB = new ReasonableGuy('reas');
 
 var match = new Match(10,
   [playerA, playerB], {
     win: 5,
     lose: 0,
     half: 3,
-    neutral: 3
+    neutral: 2
   }
 ).playMatch();
-
-console.log(`${playerA.name} scored ${match.score(playerA)}.`);
-console.log(`${playerB.name} scored ${match.score(playerB)}`);
-match.history

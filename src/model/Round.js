@@ -2,7 +2,7 @@ const Play = require('./Play');
 
 class Round {
   constructor(match) {
-    if (match == null) {
+    if (!match) {
       throw new Error('Round must receive its match');
     }
     if (match.players.length < 2) {
@@ -14,6 +14,9 @@ class Round {
   }
 
   plays(player) {
+    if (!player) {
+      return this._plays.map(p => p.play);
+    }
     return {
       mine: this._plays.find(p => p.player === player).play,
       its: this._plays.find(p => p.player !== player).play

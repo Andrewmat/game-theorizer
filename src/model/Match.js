@@ -41,6 +41,10 @@ class Match {
     return this._neutralPoints;
   }
 
+  get finished() {
+    return this._finished;
+  }
+
   playMatch() {
     do {
       this.playRound();
@@ -54,31 +58,38 @@ class Match {
     return this;
   }
 
-  // only accessable after match is finished
   history() {
-    if (this._finished) {
-      return this._history;
-    } else {
-      return null;
-    }
+    return this._history;
   }
 
   /**
    * The score of a player
    */
-  score(player) {
+  playerScore(player) {
+    return this.score()[this._players.indexOf(player)];
+  }
+
+  score() {
     return this._history.allRounds.reduce((points, round) => {
-      let play = round.plays(player);
-      if (play.mine === true && play.its === true) {
-        return points + this._halfPoints;
-      } else if (play.mine === false && play.its === false) {
-        return points + this._neutralPoints;
-      } else if (play.mine === true && play.its === false) {
-        return points + this._winnerPoints;
-      } else {
-        return points + this._loserPoints;
-      }
-    }, 0);
+      let roundScore = this._roundScore(round);
+      return [
+        points[0] + roundScore[0],
+        points[1] + roundScore[1]
+      ];
+    }, [0, 0]);
+  }
+
+  _roundScore(round) {
+    let [ play1, play2 ] = round.plays();
+    if (play1 === true && play2 === false) {
+      return [this._loserPoints, this._winnerPoints];
+    } else if (play1 === false && play2 === true) {
+      return [this._winnerPoints, this._loserPoints];
+    } else if (play1 === false && play2 === false) {
+      return [this._neutralPoints, this._neutralPoints];
+    } else if (play1 === true && play2 === true) {
+      return [this._halfPoints, this._halfPoints];
+    }
   }
 }
 
