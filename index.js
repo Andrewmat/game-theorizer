@@ -1,20 +1,21 @@
 const Match = require('./src/model/Match');
-const {
-  GoodGuy,
-  MeanGuy,
-  ReasonableGuy,
-  CautiousGuy,
-  Monkey
-} = require('./src/model/Player');
+const dftPlayer = require('./src/service/DefaultPlayers');
 
-var playerA = new CautiousGuy('caut');
-var playerB = new ReasonableGuy('reas');
+var players = [
+  new dftPlayer.Monkey('prego'),
+  new dftPlayer.Monkey('dourado')
+];
 
 var match = new Match(10,
-  [playerA, playerB], {
+  players, {
     win: 5,
     lose: 0,
     half: 3,
-    neutral: 2
+    neutral: 3
   }
 ).playMatch();
+
+var results = match.score();
+players.forEach((p, i) => {
+  console.log(`${p.name}: ${results[i]}`);
+})
