@@ -14,12 +14,20 @@ class MatchHistory {
     }
   }
 
-  get first() {
-    return this._rounds[0];
+  first(number = 1) {
+    let ret = this._rounds.slice(0,number);
+    if (ret.length === 1) {
+      return ret[0];
+    }
+    return ret;
   }
 
-  get last() {
-    return this._rounds[this._rounds.length - 1];
+  last(number = 1) {
+    let ret = this._rounds.slice(-number);
+    if (ret.length === 1) {
+      return ret[0];
+    }
+    return ret;
   }
 
   get length() {
@@ -34,7 +42,7 @@ class MatchHistory {
     return [].concat(this._rounds);
   }
 
-  get currentIndex() {
+  get currentRoundNumber() {
     return this._rounds.length + 1;
   }
 }

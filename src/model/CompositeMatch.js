@@ -45,8 +45,8 @@ class CompositeMatch {
   }
 
   play() {
-    this._matches = this._players.map(p1 => {
-      return this._players.filter(p2 => p2 !== p1).map(p2 =>
+    this._matches = this._players.map((p1, i) => {
+      return this._players.slice(i+1).map(p2 =>
         new SingleMatch(this._roundNumber, [p1, p2], this._points).playMatch()
       );
     }).reduce((flat, arr) => flat.concat(arr), []);

@@ -6,8 +6,8 @@ class CautiousGuy extends Player {
   }
   algorithm(history) {
     const PERIOD = 4;
-    if (history.currentIndex > PERIOD) {
-      let wins = history.allRounds.slice(-PERIOD).reduce((w, round) => {
+    if (history.currentRoundNumber > PERIOD) {
+      let wins = history.last(PERIOD).reduce((w, round) => {
         let p = round.plays(this);
         if (p.its === true) {
           return w + 1;
@@ -21,7 +21,7 @@ class CautiousGuy extends Player {
         return true;
       }
     } else {
-      return !!(history.currentIndex % 2);
+      return !!(history.currentRoundNumber % 2);
     }
   }
 }

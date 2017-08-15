@@ -5,11 +5,10 @@ class ReasonableGuy extends Player {
     return 'ReasonableGuy';
   }
   algorithm(history) {
-    if (!history.isEmpty) {
-      return history.last.plays(this).its;
-    } else {
+    if (history.isEmpty) {
       return true;
     }
+    return history.last().plays(this).its;
   }
 }
 
