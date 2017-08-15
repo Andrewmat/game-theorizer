@@ -1,8 +1,7 @@
-const CautiousGuy = require('../model/playerImpl/CautiousGuy');
-const GoodGuy = require('../model/playerImpl/GoodGuy');
-const MeanGuy = require('../model/playerImpl/MeanGuy');
-const Monkey = require('../model/playerImpl/Monkey');
-const ReasonableGuy = require('../model/playerImpl/ReasonableGuy');
+const GoodGuy = require('../model/defaultPlayer/GoodGuy');
+const MeanGuy = require('../model/defaultPlayer/MeanGuy');
+const ReasonableGuy = require('../model/defaultPlayer/ReasonableGuy');
+const Monkey = require('../model/defaultPlayer/Monkey');
 
 var defaultPlayers = {
   CautiousGuy,

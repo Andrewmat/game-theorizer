@@ -1,13 +1,17 @@
 const Round = require('./Round');
 
 class MatchHistory {
-  constructor(maxRounds) {
+  constructor(roundNumber) {
     this._rounds = [];
-    this._maxRounds = maxRounds;
+    this._roundNumber = roundNumber;
   }
   add(round) {
-    this._rounds.push(round);
-    return this._rounds.length < this._maxRounds;
+    if (this._rounds.length < this._roundNumber) {
+      this._rounds.push(round);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   get first() {

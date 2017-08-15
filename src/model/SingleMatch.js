@@ -1,15 +1,15 @@
 const MatchHistory = require('./MatchHistory');
 const Round = require('./Round');
+const MatchResult = require('./MatchResult');
 
-class Match {
-  constructor(maxRounds, players, { win, lose, half, neutral }) {
+class SingleMatch {
+  constructor(roundNumber, players, { win, lose, half, neutral }) {
     this._finished = false;
-    this._history = new MatchHistory(maxRounds);
+    this._history = new MatchHistory(roundNumber);
     this._players = players;
-    this._winnerPoints = win;
-    this._loserPoints = lose;
-    this._halfPoints = half;
-    this._neutralPoints = neutral;
+    this._points = {
+      win, lose, half, neutral
+    }
   }
 
   get players() {
@@ -20,25 +20,25 @@ class Match {
    * How much player scores if player doesn't bet and oponnent bets
    */
   get winnerPoints() {
-    return this._winnerPoints;
+    return this._points.win;
   }
   /**
    * How much player scores if player bets and oponnent doesn't bet
    */
   get loserPoints() {
-    return this._loserPoints;
+    return this._points.lose;
   }
   /**
    * How much player scores if both players bet
    */
   get halfPoints() {
-    return this._halfPoints;
+    return this._points.half;
   }
   /**
    * How much player score if both players doesn't bet
    */
   get neutralPoints() {
-    return this._neutralPoints;
+    return this._points.neutral;
   }
 
   get finished() {
@@ -65,32 +65,40 @@ class Match {
   /**
    * The score of a player
    */
-  playerScore(player) {
-    return this.score()[this._players.indexOf(player)];
+  playerResults(player) {
+    return this.results().find(mp => mp.player === player);
   }
 
-  score() {
-    return this._history.allRounds.reduce((points, round) => {
-      let roundScore = this._roundScore(round);
-      return [
-        points[0] + roundScore[0],
-        points[1] + roundScore[1]
-      ];
-    }, [0, 0]);
+  results() {
+    if (!this._finished) {
+      throw new Error('Results is not available before the match is finished');
+    }
+    if (!this._matchResults) {
+      this._matchResults = this._history.allRounds
+        .reduce((points, round) => {
+          let roundScore = this._roundScore(round);
+          return [
+            points[0] + roundScore[0],
+            points[1] + roundScore[1]
+          ];
+        }, [0, 0])
+        .map((points, i) => new MatchResult(this._players[i], points));
+    }
+    return this._matchResults;
   }
 
   _roundScore(round) {
     let [ play1, play2 ] = round.plays();
     if (play1 === true && play2 === false) {
-      return [this._loserPoints, this._winnerPoints];
+      return [this._points.lose, this._points.win];
     } else if (play1 === false && play2 === true) {
-      return [this._winnerPoints, this._loserPoints];
+      return [this._points.win, this._points.lose];
     } else if (play1 === false && play2 === false) {
-      return [this._neutralPoints, this._neutralPoints];
+      return [this._points.neutral, this._points.neutral];
     } else if (play1 === true && play2 === true) {
-      return [this._halfPoints, this._halfPoints];
+      return [this._points.half, this._points.half];
     }
   }
 }
 
-module.exports = Match;
+module.exports = SingleMatch;
