@@ -19,29 +19,8 @@ class CompositeMatch {
     return [].concat(this._players);
   }
 
-  /**
-   * How much player scores if player doesn't bet and oponnent bets
-   */
-  get winnerPoints() {
-    return this._points.win;
-  }
-  /**
-   * How much player scores if player bets and oponnent doesn't bet
-   */
-  get loserPoints() {
-    return this._points.lose;
-  }
-  /**
-   * How much player scores if both players bet
-   */
-  get halfPoints() {
-    return this._points.half;
-  }
-  /**
-   * How much player score if both players doesn't bet
-   */
-  get neutralPoints() {
-    return this._points.neutral;
+  get finished() {
+    return this._finished;
   }
 
   play() {
@@ -52,10 +31,6 @@ class CompositeMatch {
     }).reduce((flat, arr) => flat.concat(arr), []);
     this._finished = true;
     return this;
-  }
-
-  get finished() {
-    return this._finished;
   }
 
   results() {
