@@ -1,4 +1,5 @@
 'use strict';
+const { flatten } = require('lodash');
 const SingleMatch = require('./SingleMatch');
 const MatchResult = require('./MatchResult');
 
@@ -25,12 +26,14 @@ class CompositeMatch {
   }
 
   play() {
-    this._matches = this._players.map((p1, i) => {
-      return this._players.slice(i+1).map(p2 =>
-        new SingleMatch(this._roundNumber, [p1, p2], this._points).playMatch()
-      );
-    }).reduce((flat, arr) => flat.concat(arr), []);
-    this._finished = true;
+    if (!this._finished) {
+      this._matches = flatten(this._players.map((p1, i) => {
+        return this._players.slice(i+1).map(p2 =>
+          new SingleMatch(this._roundNumber, [p1, p2], this._points).playMatch()
+        );
+      }));
+      this._finished = true;
+    }
     return this;
   }
 

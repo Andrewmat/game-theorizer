@@ -4,7 +4,7 @@
   "description": "Little library to play with players of the Game Theory game",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node src/test/test.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Andrewmat/game-theorizer/issues"
   },
-  "homepage": "https://github.com/Andrewmat/game-theorizer#readme"
+  "homepage": "https://github.com/Andrewmat/game-theorizer#readme",
+  "devDependencies": {
+    "lodash": "^4.17.4"
+  }
 }
