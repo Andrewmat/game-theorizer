@@ -1,3 +1,4 @@
+'use strict';
 const Play = require('./Play');
 
 class Round {

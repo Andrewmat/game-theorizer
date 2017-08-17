@@ -1,3 +1,4 @@
+'use strict';
 const Round = require('./Round');
 
 class MatchHistory {
@@ -6,6 +7,9 @@ class MatchHistory {
     this._roundNumber = roundNumber;
   }
   add(round) {
+    if (!round instanceof Round) {
+      throw new Error('The only allowed object to add to MatchHistory is Round object');
+    }
     if (this._rounds.length < this._roundNumber) {
       this._rounds.push(round);
       return true;

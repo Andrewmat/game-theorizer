@@ -1,3 +1,4 @@
+'use strict';
 const Player = require('./src/model/Player');
 const SingleMatch = require('./src/model/SingleMatch');
 const CompositeMatch = require('./src/model/CompositeMatch');

@@ -1,3 +1,4 @@
+'use strict';
 
 class MatchResult {
   constructor(player, score = 0) {

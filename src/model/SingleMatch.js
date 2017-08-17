@@ -1,3 +1,4 @@
+'use strict';
 const MatchHistory = require('./MatchHistory');
 const Round = require('./Round');
 const MatchResult = require('./MatchResult');

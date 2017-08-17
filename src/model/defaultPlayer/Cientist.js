@@ -1,3 +1,4 @@
+'use strict';
 const Player = require('../Player');
 
 class Cientist extends Player {
@@ -30,11 +31,9 @@ class Cientist extends Player {
       case 3:
       case 4: {
         return true;
-        break;
       }
       case 2: {
         return false;
-        break;
       }
     }
     return null;

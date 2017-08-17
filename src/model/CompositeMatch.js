@@ -1,3 +1,4 @@
+'use strict';
 const SingleMatch = require('./SingleMatch');
 const MatchResult = require('./MatchResult');
 

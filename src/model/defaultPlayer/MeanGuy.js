@@ -1,10 +1,11 @@
+'use strict';
 const Player = require('../Player');
 
 class MeanGuy extends Player {
   static get ID() {
     return 'MeanGuy';
   }
-  algorithm(history) {
+  algorithm() {
     return false;
   }
 }
