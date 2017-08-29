@@ -5,7 +5,7 @@ class Player {
     this._name = name;
   }
   algorithm(history) {
-    throw new Error(`Implement player's logic in the algorithm`);
+    throw new Error(`Implement player's logic in Player::algorithm`);
   }
   static get ID() {
     return 'Player';
