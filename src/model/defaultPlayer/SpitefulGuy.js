@@ -3,7 +3,7 @@ const Player = require('../Player');
 
 class SpitefulGuy extends Player {
   static get ID() {
-    return 'Untrustful';
+    return 'Spiteful';
   }
   algorithm(history) {
     if (history.isEmpty) {

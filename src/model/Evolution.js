@@ -3,21 +3,18 @@ const { range, flatten, cloneDeep } = require('lodash');
 const CompositeMatch = require('./CompositeMatch');
 
 class Evolution {
-  constructor(playersObj, roundNumber = 10, points = {
-      win: 3,
-      lose: -1,
-      half: 2,
-      neutral: 0}) {
-    let players = flatten(playersObj.map(p =>
-      range(p.qtd).map(i => new p.player(p.player.ID + i))
-    ));
-    console.log(' --- CONTRCT ---');
-    console.log(players);
-    console.log(' --- CONTRCT ---');
+  constructor() {
     this.params = {
-      players,
-      roundNumber,
-      points
+      players: [],
+      roundNumber: 10,
+      threshold: 0.5,
+      points: {
+        win: 3,
+        lose: -1,
+        half: 2,
+        neutral: 0
+      },
+      observers: []
     };
     this.state = {
       players: this.params.players,
@@ -25,14 +22,65 @@ class Evolution {
     };
   }
 
-  start(stop, observe) {
+  players(players) {
+    this.params.players = flatten(players.map(arg =>
+      range(arg.qtd).map(i => new arg.player(arg.player.ID + i))
+    ));
+    this.state.players = this.params.players;
+    return this;
+  }
+
+  rounds(roundNumber) {
+    this.params.roundNumber = roundNumber;
+    return this;
+  }
+
+  threshold(thresholdNumber) {
+    this.params.threshold = thresholdNumber;
+    return this;
+  }
+
+  points({ win, lose, half, neutral }) {
+    return this
+      .winPoints(win)
+      .losePoints(lose)
+      .halfPoints(half)
+      .neutralPoints(neutral);
+  }
+
+  winPoints(points) {
+    return this._points('win', points);
+  }
+
+  losePoints(points) {
+    return this._points('lose', points);
+  }
+
+  halfPoints(points) {
+    return this._points('half', points);
+  }
+
+  neutralPoints(points) {
+    return this._points('neutral', points);
+  }
+
+  _points(type, value) {
+    return this.params.points[type] = value;
+  }
+
+  observe(observer) {
+    this.params.observers.push(observer);
+    return this;
+  }
+
+  start(continueCondition) {
     let index = -1;
     do {
       this._combat();
-      this._evolve(0.85);
+      this._evolve();
       index++;
-      observe(this.state, index);
-    } while(stop(this.state, index) !== true);
+      this.params.observers.forEach(ob => ob(this.state, index));
+    } while(continueCondition(this.state, index) !== false);
   }
 
   _combat() {
@@ -43,15 +91,15 @@ class Evolution {
     ).play();
   }
 
-  _evolve(threshold = 0.5) {
-    let lenThreshold = Math.floor(this.params.players.length * threshold);
-    let best = this._sortBest(lenThreshold);
+  _evolve() {
+    let lengthChosen = Math.floor(this.params.players.length * this.params.threshold);
+    let best = this._sortBest(lengthChosen);
 
-    let newcomers = range(this.params.players.length - lenThreshold)
-      .map(i => cloneDeep(best[i % lenThreshold])
+    let newcomers = range(this.params.players.length - lengthChosen)
+      .map(i => cloneDeep(best[i % lengthChosen])
     );
 
-    this.state.players = best.slice(0, lenThreshold)
+    this.state.players = best.slice(0, lengthChosen)
       .concat(newcomers);
   }
 
