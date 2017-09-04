@@ -65,7 +65,13 @@ class Evolution {
   }
 
   _points(type, value) {
-    return this.params.points[type] = value;
+    if (!['win', 'lose', 'half', 'neutral'].includes(type)) {
+      throw new Error('Points type is not valid');
+    }
+    if (value != null) {
+      this.params.points[type] = value;
+    }
+    return this;
   }
 
   observe(observer) {
