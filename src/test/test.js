@@ -13,6 +13,12 @@ new Evolution()
       { player: MeanGuy, qtd: 7 },
       { player: SpitefulGuy, qtd: 7 }
   ])
+  .points({
+    win: 10,
+    lose: 0,
+    half: 5,
+    neutral: 0
+  })
   .threshold(0.8)
   .observe((state, i) => console.log(` ---  ${i}  --- `))
   .observe((state, i) => console.log(state.players))

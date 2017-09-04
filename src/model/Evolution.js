@@ -2,6 +2,13 @@
 const { range, flatten, cloneDeep } = require('lodash');
 const CompositeMatch = require('./CompositeMatch');
 
+const POINT = {
+  WIN: 'win',
+  LOSE: 'lose',
+  HALF: 'half',
+  NEUTRAL: 'neutral'
+};
+
 class Evolution {
   constructor() {
     this.params = {
@@ -49,23 +56,28 @@ class Evolution {
   }
 
   winPoints(points) {
-    return this._points('win', points);
+    return this._points(POINT.WIN, points);
   }
 
   losePoints(points) {
-    return this._points('lose', points);
+    return this._points(POINT.LOSE, points);
   }
 
   halfPoints(points) {
-    return this._points('half', points);
+    return this._points(POINT.HALF, points);
   }
 
   neutralPoints(points) {
-    return this._points('neutral', points);
+    return this._points(POINT.NEUTRAL, points);
   }
 
   _points(type, value) {
-    if (!['win', 'lose', 'half', 'neutral'].includes(type)) {
+    if (![
+        POINT.WIN,
+        POINT.LOSE,
+        POINT.HALF,
+        POINT.NEUTRAL
+      ].includes(type)) {
       throw new Error('Points type is not valid');
     }
     if (value != null) {
