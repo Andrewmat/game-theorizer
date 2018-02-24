@@ -10,7 +10,7 @@ class SingleMatch {
     this._players = players;
     this._points = {
       win, lose, half, neutral
-    }
+    };
   }
 
   get players() {

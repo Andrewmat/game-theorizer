@@ -78,7 +78,7 @@ class Evolution {
         POINT.HALF,
         POINT.NEUTRAL
       ].includes(type)) {
-      throw new Error('Points type is not valid');
+      throw new Error('Invalid point type given');
     }
     if (value != null) {
       this.params.points[type] = value;

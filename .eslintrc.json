@@ -1,10 +1,14 @@
 {
+    "extends": ["plugin:jest/recommended"],
     "env": {
         "browser": true,
         "commonjs": true,
         "es6": true,
         "node": true
     },
+    "plugins": [
+        "jest"
+    ],
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -18,6 +22,7 @@
         "no-unreachable": "warn",
         "no-unused-vars": "warn",
         "constructor-super": "warn",
-        "valid-typeof": "warn"
+        "valid-typeof": "warn",
+        "semi": ["warn", "always"]
     }
 }

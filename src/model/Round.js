@@ -10,7 +10,7 @@ class Round {
       throw new Error('Round must receive a match with at least 2 players');
     }
     this._match = match;
-    this._plays = null;
+    this._plays = [];
     this._played = false;
   }
 
